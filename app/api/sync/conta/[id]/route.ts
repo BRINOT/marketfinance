@@ -1,8 +1,6 @@
-import { getServerSession } from "next-auth";
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-
-import { authOptions } from "@/lib/auth";
 import { syncByConta } from "@/lib/sync/sync-service";
 
 const syncSchema = z.object({
@@ -15,7 +13,7 @@ export async function POST(
 ) {
   try {
     // Verifica autenticação
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse("Unauthorized", { status: 401 });
