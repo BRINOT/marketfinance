@@ -11,9 +11,15 @@ importers:
       '@auth/prisma-adapter':
         specifier: ^2.4.1
         version: 2.4.1(@prisma/client@5.17.0(prisma@5.17.0))(nodemailer@6.9.14)
+      '@effect-ts/system':
+        specifier: ^0.57.5
+        version: 0.57.5
       '@hookform/resolvers':
         specifier: ^3.9.0
         version: 3.9.0(react-hook-form@7.52.1(react@18.3.1))
+      '@next/swc-win32-x64-msvc':
+        specifier: ^16.1.3
+        version: 16.1.4
       '@prisma/client':
         specifier: ^5.17.0
         version: 5.17.0(prisma@5.17.0)
@@ -197,9 +203,6 @@ importers:
       stripe:
         specifier: ^15.12.0
         version: 15.12.0
-      tailwind-merge:
-        specifier: ^2.4.0
-        version: 2.4.0
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.6)
@@ -1085,6 +1088,12 @@ packages:
 
   '@next/swc-win32-x64-msvc@14.2.5':
     resolution: {integrity: sha512-tEQ7oinq1/CjSG9uSTerca3v4AZ+dFa+4Yu6ihaG8Ud8ddqLQgFGcnwYls13H5X5CPDPZJdYxyeMui6muOLd4g==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
+  '@next/swc-win32-x64-msvc@16.1.4':
+    resolution: {integrity: sha512-JSVlm9MDhmTXw/sO2PE/MRj+G6XOSMZB+BcZ0a7d6KwVFZVpkHcb2okyoYFBaco6LeiL53BBklRlOrDDbOeE5w==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -5361,9 +5370,6 @@ packages:
   tailwind-merge@2.2.0:
     resolution: {integrity: sha512-SqqhhaL0T06SW59+JVNfAqKdqLs0497esifRrZ7jOaefP3o64fdFNDMrAQWZFMxTLJPiHVjRLUywT8uFz1xNWQ==}
 
-  tailwind-merge@2.4.0:
-    resolution: {integrity: sha512-49AwoOQNKdqKPd9CViyH5wJoSKsCDjUlzL8DxuGp3P1FsGY36NJDAa18jLZcaHAUUuTj+JB8IAo8zWgBNvBF7A==}
-
   tailwindcss-animate@1.0.7:
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
     peerDependencies:
@@ -6567,6 +6573,8 @@ snapshots:
 
   '@next/swc-win32-x64-msvc@14.2.5':
     optional: true
+
+  '@next/swc-win32-x64-msvc@16.1.4': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -9184,7 +9192,7 @@ snapshots:
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(@typescript-eslint/parser@7.17.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(@typescript-eslint/parser@7.17.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
+      eslint-plugin-import: 2.29.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       eslint-plugin-jsx-a11y: 6.8.0(eslint@8.57.0)
       eslint-plugin-react: 7.35.0(eslint@8.57.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.57.0)
@@ -9220,8 +9228,8 @@ snapshots:
       debug: 4.3.4
       enhanced-resolve: 5.15.0
       eslint: 8.57.0
-      eslint-module-utils: 2.8.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(@typescript-eslint/parser@7.17.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(@typescript-eslint/parser@7.17.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
+      eslint-module-utils: 2.8.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
+      eslint-plugin-import: 2.29.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       fast-glob: 3.3.2
       get-tsconfig: 4.7.2
       is-core-module: 2.13.1
@@ -9232,7 +9240,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-module-utils@2.8.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(@typescript-eslint/parser@7.17.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0):
+  eslint-module-utils@2.8.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -9243,7 +9251,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.29.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(@typescript-eslint/parser@7.17.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0):
+  eslint-plugin-import@2.29.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0):
     dependencies:
       array-includes: 3.1.8
       array.prototype.findlastindex: 1.2.3
@@ -9253,7 +9261,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.8.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0(@typescript-eslint/parser@7.17.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
+      eslint-module-utils: 2.8.0(@typescript-eslint/parser@6.20.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       hasown: 2.0.2
       is-core-module: 2.13.1
       is-glob: 4.0.3
@@ -11904,8 +11912,6 @@ snapshots:
   tailwind-merge@2.2.0:
     dependencies:
       '@babel/runtime': 7.24.4
-
-  tailwind-merge@2.4.0: {}
 
   tailwindcss-animate@1.0.7(tailwindcss@3.4.6):
     dependencies:
