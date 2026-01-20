@@ -1,6 +1,5 @@
-import { getServerSession } from "next-auth";
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/lib/auth";
 import { conciliarAutomaticamente, conciliarTodasContas } from "@/lib/conciliacao/conciliacao-service";
 import { z } from "zod";
 
@@ -10,7 +9,7 @@ const conciliacaoSchema = z.object({
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse("Unauthorized", { status: 401 });
