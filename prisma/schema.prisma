@@ -78,3 +78,183 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map(name: "verification_tokens")
 }
+
+
+// Financial Models
+
+model Marketplace {
+  id        String   @id @default(cuid())
+  nome      String
+  slug      String   @unique
+  config    Json?
+  ativo     Boolean  @default(true)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map(name: "updated_at")
+
+  contas    ContaMarketplace[]
+
+  @@map(name: "marketplaces")
+}
+
+model ContaMarketplace {
+  id            String   @id @default(cuid())
+  marketplaceId String
+  sellerId      String
+  status        String   @default("ativa")
+  credenciais   Json?
+  createdAt     DateTime @default(now()) @map(name: "created_at")
+  updatedAt     DateTime @default(now()) @updatedAt @map(name: "updated_at")
+    statusSincronizacao    String    @default("pendente")
+  ultimaSincronizacao    DateTime?
+  proximaSincronizacao   DateTime?
+  intervaloSincronizacao Int       @default(3600)
+  mensagemErro           String?
+
+  marketplace Marketplace @relation(fields: [marketplaceId], references: [id], onDelete: Cascade)
+  transacoes  Transacao[]
+    logsSincronizacao LogSincronizacao[]
+  historicoConta   HistoricoConta[]
+
+  @@unique([marketplaceId, sellerId])
+  @@index([marketplaceId])
+  @@index([sellerId])
+  @@map(name: "contas_marketplace")
+    @@index([statusSincronizacao])
+      @@index([proximaSincronizacao])
+}
+
+model Transacao {
+  id                  String   @id @default(cuid())
+  contaMarketplaceId  String
+  pedidoId            String
+  sku                 String?
+  valorProduto        Decimal  @db.Decimal(10, 2)
+  valorFrete          Decimal  @db.Decimal(10, 2) @default(0)
+  valorTotal          Decimal  @db.Decimal(10, 2)
+  taxaMarketplace     Decimal  @db.Decimal(10, 2) @default(0)
+  taxaFrete           Decimal  @db.Decimal(10, 2) @default(0)
+  valorLiquido        Decimal  @db.Decimal(10, 2)
+  status              String
+    conciliadaAutomaticamente Boolean @default(false)
+      requerRevisaoManual       Boolean @default(false)
+        motivoRevisao             String?
+  dataPedido          DateTime
+  dataAprovacao       DateTime?
+  dataPagamento       DateTime?
+  metadata            Json?
+  createdAt           DateTime @default(now()) @map(name: "created_at")
+  updatedAt           DateTime @default(now()) @updatedAt @map(name: "updated_at")
+
+  contaMarketplace ContaMarketplace @relation(fields: [contaMarketplaceId], references: [id], onDelete: Cascade)
+  conciliacoes     Conciliacao[]
+
+  @@index([contaMarketplaceId])
+  @@index([pedidoId])
+  @@index([status])
+  @@index([dataPedido])
+  @@map(name: "transacoes")
+}
+
+model ContaBancaria {
+  id            String   @id @default(cuid())
+  banco         String
+  agencia       String
+  conta         String
+  tipo          String
+  titular       String
+  documento     String
+  saldo         Decimal  @db.Decimal(10, 2) @default(0)
+  ativo         Boolean  @default(true)
+  createdAt     DateTime @default(now()) @map(name: "created_at")
+  updatedAt     DateTime @default(now()) @updatedAt @map(name: "updated_at")
+
+  conciliacoes Conciliacao[]
+
+  @@unique([banco, agencia, conta])
+  @@map(name: "contas_bancarias")
+}
+
+model Conciliacao {
+  id              String   @id @default(cuid())
+  transacaoId     String
+  contaBancariaId String
+  valorConciliado Decimal  @db.Decimal(10, 2)
+  dataConciliacao DateTime
+  status          String   @default("pendente")
+    conciliadaAutomaticamente  Boolean  @default(false)
+  observacoes     String?
+  createdAt       DateTime @default(now()) @map(name: "created_at")
+  updatedAt       DateTime @default(now()) @updatedAt @map(name: "updated_at")
+
+          o     Transacao      @relation(fields: [transacaoId], references: [id], onDelete: Cascade)
+  contaBancaria ContaBancaria  @relation(fields: [contaBancariaId], references: [id], onDelete: Cascade)
+    logsConciliacao  LogConciliacao[]
+
+  @@index([transacaoId])
+  @@index([contaBancariaId])
+  @@index([dataConciliacao])
+  @@map(name: "conciliacoes")
+}
+
+// Logs Models
+
+model LogSincronizacao {
+  id                   String   @id @default(cuid())
+  contaMarketplaceId   String
+  tipo                 String   // manual, automatica, agendada
+  status               String   // iniciada, em_progresso, concluida, erro
+  dataInicio           DateTime @default(now())
+  dataFim              DateTime?
+  registrosProcessados Int      @default(0)
+  registrosNovos       Int      @default(0)
+  registrosAtualizados Int      @default(0)
+  registrosErro        Int      @default(0)
+  mensagemErro         String?  @db.Text
+  detalhes             Json?
+  createdAt            DateTime @default(now()) @map(name: "created_at")
+
+  contaMarketplace ContaMarketplace @relation(fields: [contaMarketplaceId], references: [id], onDelete: Cascade)
+
+  @@index([contaMarketplaceId])
+  @@index([status])
+  @@index([dataInicio])
+  @@map(name: "logs_sincronizacao")
+}
+
+model LogConciliacao {
+  id             String   @id @default(cuid())
+  conciliacaoId  String
+  acao           String   // criada, atualizada, aprovada, rejeitada, cancelada
+  statusAnterior String?
+  statusNovo     String
+  usuario        String?
+  automatica     Boolean  @default(false)
+  observacoes    String?  @db.Text
+  detalhes       Json?
+  createdAt      DateTime @default(now()) @map(name: "created_at")
+
+  conciliacao Conciliacao @relation(fields: [conciliacaoId], references: [id], onDelete: Cascade)
+
+  @@index([conciliacaoId])
+  @@index([acao])
+  @@index([createdAt])
+  @@map(name: "logs_conciliacao")
+}
+
+model HistoricoConta {
+  id                 String   @id @default(cuid())
+  contaMarketplaceId String
+  evento             String   // criada, ativada, desativada, credenciais_atualizadas, erro_sincronizacao, etc
+  statusAnterior     String?
+  statusNovo         String?
+  descricao          String?  @db.Text
+  metadata           Json?
+  createdAt          DateTime @default(now()) @map(name: "created_at")
+
+  contaMarketplace ContaMarketplace @relation(fields: [contaMarketplaceId], references: [id], onDelete: Cascade)
+
+  @@index([contaMarketplaceId])
+  @@index([evento])
+  @@index([createdAt])
+  @@map(name: "historico_conta")
+}
